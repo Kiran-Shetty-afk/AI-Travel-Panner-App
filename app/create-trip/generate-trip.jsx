@@ -1,0 +1,104 @@
+import { View, Text, Image } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
+import { Colors } from '../../constants/Colors'
+import { CreateTripContext } from '../../context/CreateTripContext'
+import { AI_PROMPT } from '../../constants/Options'
+import { chatSession } from '../../configs/AiModal'
+import { useRouter } from 'expo-router'
+import { auth, db } from './../../configs/FirebaseConfig'
+import { doc, setDoc } from "firebase/firestore";
+import LottieView from 'lottie-react-native';
+export default function GenerateTrip() {
+    const { tripData, setTripData } = useContext(CreateTripContext);
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
+    const user = auth.currentUser;
+    useEffect(() => {
+        GenerateAiTrip()
+    }, [tripData])
+
+    const GenerateAiTrip = async () => {
+        try {
+            setLoading(true);
+            const user = auth.currentUser;
+            if (!user) {
+                console.log("❌ No authenticated user found.");
+                setLoading(false);
+                return;
+            }
+
+            const FINAL_PROMPT = AI_PROMPT
+                .replace('{location}', tripData?.locationInfo?.name)
+                .replace('{totalDays}', tripData.totalNoOfDays)
+                .replace('{totalNight}', tripData.totalNoOfDays - 1)
+                .replace('{traveler}', tripData.traveler?.title)
+                .replace('{budget}', tripData.budget)
+                .replace('{totalDays}', tripData.totalNoOfDays)
+                .replace('{totalNight}', tripData.totalNoOfDays - 1);
+
+            console.log("🧠 Prompt sent to Gemini:", FINAL_PROMPT);
+
+            const result = await chatSession.sendMessage(FINAL_PROMPT);
+            const text = await result.response.text();
+            console.log("📩 Response from Gemini:", text);
+
+            const tripResp = JSON.parse(text);
+
+            const docId = Date.now().toString();
+            await setDoc(doc(db, "userTrips", docId), {
+                userEmail: user.email,
+                tripPlan: tripResp,// AI Result
+                tripData: JSON.stringify(tripData), //User Selection Data
+                docId: docId
+            });
+
+            console.log("✅ Trip saved to Firestore!");
+            setLoading(false);
+            router.push("(tabs)/mytrip");
+        } catch (error) {
+            console.log("❌ Error in GenerateAiTrip:", error.message);
+            setLoading(false);
+        }
+    };
+    return (
+        <View style={{
+            padding: 25,
+            paddingTop: 75,
+            backgroundColor: Colors.WHITE,
+            height: "100%"
+        }}>
+            <Text style={{
+                fontFamily: "outfit-bold",
+                fontSize: 35,
+                textAlign: 'center'
+            }}>
+                Please wait...
+            </Text>
+            <Text style={{
+                fontFamily: "outfit-bold",
+                fontSize: 20,
+                textAlign: 'center',
+                marginTop: 40
+            }}>
+                We are working to generate your dream trip
+            </Text>
+
+           
+
+            <LottieView
+                source={require('./../../assets/images/plane.json')}
+                autoPlay
+                loop
+                style={{ width: '100%', height: 200 }}
+            />
+
+
+            <Text style={{
+                fontFamily: "outfit",
+                fontSize: 20,
+                color: Colors.GRAY,
+                textAlign: "center"
+            }}>Do not go back</Text>
+        </View>
+    )
+}

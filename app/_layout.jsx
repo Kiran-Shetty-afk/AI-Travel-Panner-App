@@ -11,7 +11,7 @@ export default function Layout() {
     "outfit-bold": require("./../assets/fonts/Outfit-Bold.ttf"),
   });
 
-  const [tripData, setTripData] = useState([]); // ✅ Moved here
+  const [tripData, setTripData] = useState([]); //
 
   if (!fontsLoaded) {
     return (
