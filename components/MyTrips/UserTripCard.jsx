@@ -2,15 +2,20 @@ import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import moment from 'moment'
 import { Colors } from '../../constants/Colors'
-import { useRouter } from 'expo-router'  // 👈 Import router
+import { useRouter } from 'expo-router'  
 
 export default function UserTripCard({ trip }) {
-  const router = useRouter(); // 👈 Initialize router
+  const router = useRouter(); 
   const formatData = (data) => {
     return JSON.parse(data);
   }
 
   const handlePress = () => {
+    if (!trip || !trip.tripData || !trip.tripPlan) {
+      console.warn('Incomplete trip data');
+      return;
+    }
+  
     router.push({
       pathname: '/trip-details',
       params: {
@@ -69,7 +74,7 @@ export default function UserTripCard({ trip }) {
               color: Colors.GRAY,
             }}
           >
-            Traveling: {formatData(trip.tripData)?.traveler?.title}
+            Traveling: {formatData(trip.tripData)?.traveler?.title || 'Unknown'}
           </Text>
         </View>
       </View>

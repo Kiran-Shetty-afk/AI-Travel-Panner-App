@@ -11,7 +11,21 @@ export default function Layout() {
     "outfit-bold": require("./../assets/fonts/Outfit-Bold.ttf"),
   });
 
-  const [tripData, setTripData] = useState([]); //
+  const [tripData, setTripData] = useState({
+    locationInfo: null,
+    traveler: null,
+    startDate: null,
+    endDate: null,
+    totalNoOfDays: null,
+    tripPlan: {
+      tripDetails: {
+        flights: [],
+        hotels: [],
+        itinerary: [],
+      },
+    },
+  });
+  
 
   if (!fontsLoaded) {
     return (
