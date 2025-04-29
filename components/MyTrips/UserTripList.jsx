@@ -39,7 +39,7 @@ export default function UserTripList({ userTrips }) {
             fontFamily: 'outfit-medium',
             fontSize: 20,
           }}>
-            {userTrips[0]?.tripPlan?.trip_details?.destination}</Text>
+            {userTrips[0]?.tripPlan?.tripDetails?.destination}</Text>
           <View style={{
             display: 'flex',
             flexDirection: 'row',

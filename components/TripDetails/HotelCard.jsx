@@ -10,7 +10,7 @@ export default function HotelCard({ item }) {
     }, [])
 
     const GetGooglePhotoRef = async () => {
-        const result = await GetPhotoRef(item.hotel_name);
+        const result = await GetPhotoRef(item.hotelName);
       
         if (
           result &&
@@ -62,7 +62,7 @@ export default function HotelCard({ item }) {
                         fontFamily: 'outfit-medium',
                         fontSize: 17
                     }}>
-                    {item.hotel_name}
+                    {item.hotelName}
                 </Text>
                 <View
                     style={{

@@ -11,7 +11,7 @@ export default function PlaceCard({ place }) {
   }, [])
 
   const GetGooglePhotoRef = async () => {
-    const result = await GetPhotoRef(place.place_name);
+    const result = await GetPhotoRef(place.placeName);
 
     if (
       result &&
@@ -53,12 +53,12 @@ export default function PlaceCard({ place }) {
       <Text style={{
         fontFamily: 'outfit-bold',
         fontSize: 20
-      }}>{place?.place_name}</Text>
+      }}>{place?.placeName}</Text>
       <Text style={{
         fontFamily: 'outfit',
         fontSize: 17,
         color: Colors.GRAY
-      }}>{place.place_details}</Text>
+      }}>{place.placeDetails}</Text>
       <View style={{
         display: 'flex',
         flexDirection: 'row',
@@ -73,7 +73,7 @@ export default function PlaceCard({ place }) {
           }}>🎟️ Ticket Price:
             <Text style={{
               fontFamily: 'outfit-bold'
-            }}> {place?.ticket_pricing}</Text>
+            }}> {place?.ticketPricing}</Text>
           </Text>
           <Text style={{
             fontFamily: 'outfit',
@@ -82,12 +82,12 @@ export default function PlaceCard({ place }) {
           }}>⏱️ Time to Travel:
             <Text style={{
               fontFamily: 'outfit-bold'
-            }}> {place?.time_to_travel}</Text></Text>
+            }}> {place?.timeToTravel}</Text></Text>
         </View>
         <TouchableOpacity
           onPress={() => {
-            const latitude = place?.geo_coordinates?.[0];
-            const longitude = place?.geo_coordinates?.[1];
+            const latitude = place?.geoCoordinates?.[0];
+            const longitude = place?.geoCoordinates?.[1];
 
             if (latitude && longitude) {
               const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;

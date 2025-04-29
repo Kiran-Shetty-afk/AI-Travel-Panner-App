@@ -5,7 +5,7 @@ import { Colors } from '../../constants/Colors';
 export default function FlightInfo({ flightData }) {
     if (!flightData || typeof flightData !== 'object') return null;
 
-    const { booking_url, price } = flightData;
+    const { bookingUrl, price } = flightData;
 
     return (
         <View
@@ -33,9 +33,9 @@ export default function FlightInfo({ flightData }) {
                 >
                     ✈️ Flights
                 </Text>
-                {booking_url && (
+                {bookingUrl && (
                     <TouchableOpacity
-                        onPress={() => Linking.openURL(booking_url)}
+                        onPress={() => Linking.openURL(bookingUrl)}
                         style={{
                             backgroundColor: Colors.PRIMARY,
                             padding: 5,

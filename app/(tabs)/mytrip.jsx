@@ -13,7 +13,7 @@ export default function MyTrip() {
   const user = auth.currentUser;
   const [loading, setLoading] = useState(false);
 
-  const router = useRouter(); // ✅ Move this here
+  const router = useRouter();
 
   useEffect(() => {
     user && GetMyTrips();
@@ -46,7 +46,7 @@ export default function MyTrip() {
             fontSize: 35
           }}>My Trips</Text>
 
-          {/* ✅ Now this works correctly */}
+          
           <TouchableOpacity onPress={() => router.push('/create-trip/search-place')}>
             <Ionicons name="add-circle" size={50} color="black" />
           </TouchableOpacity>

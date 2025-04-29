@@ -88,11 +88,11 @@ export default function TripDetails() {
 
         {/* FLight Info */}
 
-        <FlightInfo flightData={tripDetails?.tripPlan?.trip_details?.flights} />
+        <FlightInfo flightData={tripDetails?.tripPlan?.tripDetails?.flights} />
         {/* Hotel List */}
-        <HotelList hotelList={tripDetails?.tripPlan?.trip_details?.hotels} />
+        <HotelList hotelList={tripDetails?.tripPlan?.tripDetails?.hotels} />
         {/* Trip Day Planner Info */}
-        <PlannedTrip details={tripDetails?.tripPlan?.trip_details?.itinerary} />  
+        <PlannedTrip details={tripDetails?.tripPlan?.tripDetails?.itinerary} />  
       </View>
 
 
