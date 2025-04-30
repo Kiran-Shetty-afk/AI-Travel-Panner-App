@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
-import React, { useContext, useState } from 'react';
+import { View, Text, Alert } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
 import { Colors } from '../../constants/Colors';
 import { CreateTripContext } from '../../context/CreateTripContext';
 import { AI_PROMPT } from '../../constants/Options';
@@ -15,20 +15,25 @@ export default function GenerateTrip() {
   const router = useRouter();
   const user = auth.currentUser;
 
+  useEffect(() => {
+    if (
+      tripData &&
+      tripData.locationInfo &&
+      tripData.traveler &&
+      tripData.startDate &&
+      tripData.endDate &&
+      tripData.totalNoOfDays &&
+      tripData.budget
+    ) {
+      GenerateAiTrip();
+    } else {
+      console.log("❌ Missing trip data:", tripData);
+      Alert.alert("Incomplete Trip", "Please complete all trip details before generating the trip.");
+    }
+  }, []);
+
   const GenerateAiTrip = async () => {
     try {
-      if (
-        !tripData.locationInfo ||
-        !tripData.traveler ||
-        !tripData.startDate ||
-        !tripData.endDate ||
-        !tripData.totalNoOfDays ||
-        !tripData.budget
-      ) {
-        alert("Please complete all trip details before generating your trip.");
-        return;
-      }
-
       setLoading(true);
       if (!user) {
         console.log("❌ No authenticated user found.");
@@ -78,21 +83,18 @@ export default function GenerateTrip() {
     }}>
       <Text style={{
         fontFamily: "outfit-bold",
-        fontSize: 30,
-        textAlign: 'center',
-        marginBottom: 20
+        fontSize: 35,
+        textAlign: 'center'
       }}>
-        Ready to create your trip?
+        Please wait...
       </Text>
-
       <Text style={{
-        fontFamily: "outfit",
-        fontSize: 18,
-        color: Colors.GRAY,
+        fontFamily: "outfit-bold",
+        fontSize: 20,
         textAlign: 'center',
-        marginBottom: 30
+        marginTop: 40
       }}>
-        Tap the button below to generate your AI-powered itinerary.
+        We are working to generate your dream trip
       </Text>
 
       <LottieView
@@ -102,26 +104,12 @@ export default function GenerateTrip() {
         style={{ width: '100%', height: 200 }}
       />
 
-      {loading ? (
-        <ActivityIndicator size="large" color={Colors.PRIMARY} style={{ marginTop: 40 }} />
-      ) : (
-        <TouchableOpacity
-          onPress={GenerateAiTrip}
-          style={{
-            backgroundColor: Colors.PRIMARY,
-            padding: 15,
-            borderRadius: 10,
-            marginTop: 40
-          }}
-        >
-          <Text style={{
-            color: Colors.WHITE,
-            fontSize: 18,
-            textAlign: 'center',
-            fontFamily: "outfit-medium"
-          }}>Generate Trip</Text>
-        </TouchableOpacity>
-      )}
+      <Text style={{
+        fontFamily: "outfit",
+        fontSize: 20,
+        color: Colors.GRAY,
+        textAlign: "center"
+      }}>Do not go back</Text>
     </View>
   );
 }
