@@ -1,32 +1,36 @@
-import { View, Text, FlatList, Image } from 'react-native'
-import React, { useEffect } from 'react'
-import { GetPhotoRef } from '../../services/GooglePlaceAPi'
-import HotelCard from './HotelCard'
+import { View, Text, FlatList } from 'react-native';
+import React from 'react';
+import { useTheme } from '../../context/ThemeContext';
+import HotelCard from './HotelCard';
 
 export default function HotelList({ hotelList }) {
+  const { isDarkMode } = useTheme();
 
-
- 
   return (
-    <View>
+    <View style={{
+      paddingHorizontal: 10,
+      paddingVertical: 10,
+      backgroundColor: isDarkMode ? '#1e1e1e' : '#ffffff',
+    }}>
       <Text style={{
         fontFamily: 'outfit-bold',
-        fontSize: 20
-      }}>🏨 Hotel Recommendation</Text>
+        fontSize: 20,
+        color: isDarkMode ? '#ffffff' : '#000000'
+      }}>
+        🏨 Hotel Recommendation
+      </Text>
 
       <FlatList
         data={hotelList}
-        style={{
-          marginTop: 8
-        }}
+        horizontal
+        style={{ marginTop: 10 }}
         showsHorizontalScrollIndicator={false}
-        horizontal={true}
-        renderItem={({ item, index }) => (
-          <HotelCard item={item}/>
+        keyExtractor={(item, index) => index.toString()}
+        contentContainerStyle={{ paddingRight: 20 }}
+        renderItem={({ item }) => (
+          <HotelCard item={item} />
         )}
-
-
       />
     </View>
-  )
+  );
 }

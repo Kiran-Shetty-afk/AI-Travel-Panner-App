@@ -1,15 +1,18 @@
-import { View, Text, TouchableOpacity, StyleSheet, ToastAndroid, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ToastAndroid, Alert, Switch } from 'react-native';
 import React from 'react';
 import { auth } from './../../configs/FirebaseConfig';
 import { signOut, sendPasswordResetEmail } from 'firebase/auth';
 import { useRouter } from 'expo-router';
 import { Colors } from './../../constants/Colors';
 import Constants from 'expo-constants';
-
+import { useTheme } from './../../context/ThemeContext'; // ✅ import useTheme hook
 
 export default function Profile() {
   const user = auth.currentUser;
   const router = useRouter();
+  const { isDarkMode, toggleTheme } = useTheme(); // ✅ access theme state and toggle function
+  const dynamicStyles = getDynamicStyles(isDarkMode);
+
 
   const handleSignOut = () => {
     Alert.alert(
@@ -39,7 +42,6 @@ export default function Profile() {
     );
   };
 
-
   const handlePasswordReset = () => {
     if (user?.email) {
       sendPasswordResetEmail(auth, user.email)
@@ -53,31 +55,29 @@ export default function Profile() {
     }
   };
 
-
-
   const handleFeedback = () => {
     Alert.alert("Submit Feedback", "We'd love to hear from you! Email us at Kiranshetty2004@gmail.com");
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>User Profile</Text>
+    <View style={dynamicStyles.container}>
+      <Text style={dynamicStyles.heading}>User Profile</Text>
 
       <View style={styles.detailBox}>
-        <Text style={styles.label}>Username:</Text>
-        <Text style={styles.value}>{user.displayName ?? user.email.split('@')[0]}</Text>
+        <Text style={dynamicStyles.label}>Username:</Text>
+        <Text style={dynamicStyles.value}>{user.displayName ?? user.email.split('@')[0]}</Text>
 
-        <Text style={styles.label}>Email:</Text>
-        <Text style={styles.value}>{user.email}</Text>
+        <Text style={dynamicStyles.label}>Email:</Text>
+        <Text style={dynamicStyles.value}>{user.email}</Text>
 
-        <Text style={styles.label}>Account Created:</Text>
-        <Text style={styles.value}>{new Date(user.metadata.creationTime).toDateString()}</Text>
+        <Text style={dynamicStyles.label}>Account Created:</Text>
+        <Text style={dynamicStyles.value}>{new Date(user.metadata.creationTime).toDateString()}</Text>
 
-        <Text style={styles.label}>Last Login:</Text>
-        <Text style={styles.value}>{new Date(user.metadata.lastSignInTime).toDateString()}</Text>
+        <Text style={dynamicStyles.label}>Last Login:</Text>
+        <Text style={dynamicStyles.value}>{new Date(user.metadata.lastSignInTime).toDateString()}</Text>
 
-        <Text style={styles.label}>Location:</Text>
-        <Text style={styles.value}>Mumbai, India</Text>
+        <Text style={dynamicStyles.label}>Location:</Text>
+        <Text style={dynamicStyles.value}>Mumbai, India</Text>
       </View>
 
       <TouchableOpacity onPress={handlePasswordReset} style={styles.resetBtn}>
@@ -92,11 +92,22 @@ export default function Profile() {
         <Text style={styles.aboutText}>About Us</Text>
       </TouchableOpacity>
 
-
       <TouchableOpacity onPress={handleSignOut} style={styles.signOutBtn}>
         <Text style={styles.signOutText}>Sign Out</Text>
       </TouchableOpacity>
-      <Text style={styles.versionText}>
+
+      {/* Theme Toggle Switch */}
+      <View style={styles.themeToggle}>
+        <Text style={[dynamicStyles.label, { marginRight: 10 }]}>Dark Mode:</Text>
+        <Switch
+          value={isDarkMode}
+          onValueChange={toggleTheme}
+          trackColor={{ false: '#767577', true: '#81b0ff' }}
+          thumbColor={isDarkMode ? '#f5dd4b' : '#f4f3f4'}
+        />
+      </View>
+
+      <Text style={dynamicStyles.versionText}>
         Version {Constants.expoConfig?.version || '1.0.0'}
       </Text>
     </View>
@@ -106,7 +117,6 @@ export default function Profile() {
 const styles = StyleSheet.create({
   container: {
     padding: 25,
-    backgroundColor: Colors.WHITE,
     height: '100%',
   },
   heading: {
@@ -182,4 +192,42 @@ const styles = StyleSheet.create({
     color: Colors.GRAY,
     fontFamily: 'outfit',
   },
+  themeToggle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20,
+  },
 });
+const getDynamicStyles = (isDarkMode) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      padding: 25,
+      backgroundColor: isDarkMode ? '#121212' : Colors.WHITE,
+    },
+    heading: {
+      fontSize: 28,
+      fontFamily: 'outfit-bold',
+      marginBottom: 20,
+      color: isDarkMode ? '#fff' : '#000',
+    },
+    label: {
+      fontSize: 16,
+      fontFamily: 'outfit',
+      color: isDarkMode ? '#ccc' : Colors.GRAY,
+    },
+    value: {
+      fontSize: 18,
+      fontFamily: 'outfit-medium',
+      marginBottom: 10,
+      color: isDarkMode ? '#fff' : '#000',
+    },
+    versionText: {
+      textAlign: 'center',
+      marginTop: 15,
+      fontSize: 12,
+      color: isDarkMode ? '#aaa' : Colors.GRAY,
+      fontFamily: 'outfit',
+    },
+  });
+

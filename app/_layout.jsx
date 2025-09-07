@@ -1,7 +1,8 @@
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { View, Text } from "react-native";
-import { CreateTripContext } from "../context/CreateTripContext"
+import { CreateTripContext } from "../context/CreateTripContext";
+import { ThemeProvider } from "../context/ThemeContext"; // ✅ import ThemeProvider
 import { useState } from "react";
 
 export default function Layout() {
@@ -25,7 +26,6 @@ export default function Layout() {
       },
     },
   });
-  
 
   if (!fontsLoaded) {
     return (
@@ -36,8 +36,10 @@ export default function Layout() {
   }
 
   return (
-    <CreateTripContext.Provider value={{ tripData, setTripData }}>
-      <Stack screenOptions={{ headerShown: false }} />
-    </CreateTripContext.Provider>
+    <ThemeProvider> 
+      <CreateTripContext.Provider value={{ tripData, setTripData }}>
+        <Stack screenOptions={{ headerShown: false }} />
+      </CreateTripContext.Provider>
+    </ThemeProvider>
   );
 }

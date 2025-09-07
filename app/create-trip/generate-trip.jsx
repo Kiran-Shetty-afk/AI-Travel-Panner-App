@@ -42,11 +42,11 @@ export default function GenerateTrip() {
       }
 
       const FINAL_PROMPT = AI_PROMPT
-        .replace('{location}', tripData.locationInfo.name)
-        .replace('{totalDays}', tripData.totalNoOfDays)
-        .replace('{totalNight}', tripData.totalNoOfDays - 1)
-        .replace('{traveler}', tripData.traveler.title)
-        .replace('{budget}', tripData.budget);
+        .replaceAll('{location}', tripData.locationInfo.name)
+        .replaceAll('{totalDays}', tripData.totalNoOfDays.toString())
+        .replaceAll('{totalNight}', (tripData.totalNoOfDays - 1).toString())
+        .replaceAll('{traveler}', tripData.traveler.title)
+        .replaceAll('{budget}', tripData.budget);
 
       console.log("🧠 Prompt sent to Gemini:", FINAL_PROMPT);
 

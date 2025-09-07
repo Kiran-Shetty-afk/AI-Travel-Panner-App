@@ -1,76 +1,81 @@
-import { View, Text, TouchableOpacity, Linking } from 'react-native';
+import { View, Text, TouchableOpacity, Linking, StyleSheet } from 'react-native';
 import React from 'react';
 import { Colors } from '../../constants/Colors';
+import { useTheme } from '../../context/ThemeContext';
 
 export default function FlightInfo({ flightData }) {
-    if (!flightData || typeof flightData !== 'object') return null;
+  const { isDarkMode } = useTheme();
 
-    const { bookingUrl, price } = flightData;
+  if (!flightData || typeof flightData !== 'object') return null;
 
-    return (
-        <View
-            style={{
-                marginTop: 20,
-                borderWidth: 1,
-                borderColor: Colors.LIGHT_GRAY,
-                padding: 10,
-                borderRadius: 15,
-            }}
-        >
-            <View
-                style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                }}
-            >
-                <Text
-                    style={{
-                        fontFamily: 'outfit-bold',
-                        fontSize: 20,
-                    }}
-                >
-                    ✈️ Flights
-                </Text>
-                {bookingUrl && (
-                    <TouchableOpacity
-                        onPress={() => Linking.openURL(bookingUrl)}
-                        style={{
-                            backgroundColor: Colors.PRIMARY,
-                            padding: 5,
-                            width: 100,
-                            borderRadius: 7,
-                            marginTop: 7,
-                        }}
-                    >
-                        <Text
-                            style={{
-                                textAlign: 'center',
-                                color: Colors.WHITE,
-                                fontFamily: 'outfit',
-                            }}
-                        >
-                            Book Here
-                        </Text>
-                    </TouchableOpacity>
-                )}
-            </View>
-            <Text style={{
-                fontFamily: 'outfit',
-                fontSize: 17,
-                marginTop:7
-            }}>Airline:Delta</Text>
-            {price && (
-                <Text
-                    style={{
-                        fontFamily: 'outfit',
-                        fontSize: 17,
-                    }}
-                >
-                    Price: {price}
-                </Text>
-            )}
-        </View>
-    );
+  const { bookingUrl, price, airline = 'Delta' } = flightData;
+
+  return (
+    <View style={styles.container(isDarkMode)}>
+      <View style={styles.headerRow}>
+      <Text style={styles.heading(isDarkMode)}>✈️ Flights</Text>
+        {bookingUrl && (
+          <TouchableOpacity
+            onPress={() => Linking.openURL(bookingUrl)}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>Book Here</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+
+      <Text style={[styles.text(isDarkMode), { marginTop: 7 }]}>
+        Airline: {airline}
+      </Text>
+
+      {price && (
+        <Text style={styles.text(isDarkMode)}>
+          Price: {price}
+        </Text>
+      )}
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: (isDarkMode) => ({
+    marginTop: 20,
+    borderWidth: 1,
+    borderColor: isDarkMode ? '#333' : Colors.LIGHT_GRAY,
+    backgroundColor: isDarkMode ? '#1e1e1e' : '#fff',
+    padding: 10,
+    borderRadius: 15,
+  }),
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  heading: {
+    fontFamily: 'outfit-bold',
+    fontSize: 20,
+  },
+  button: {
+    backgroundColor: Colors.PRIMARY,
+    padding: 5,
+    width: 100,
+    borderRadius: 7,
+    marginTop: 7,
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: Colors.WHITE,
+    fontFamily: 'outfit',
+  },
+  heading: (isDarkMode) => ({
+    fontFamily: 'outfit-bold',
+    fontSize: 20,
+    color: isDarkMode ? '#fff' : '#000',
+  }),
+  text: (isDarkMode) => ({
+    fontFamily: 'outfit',
+    fontSize: 17,
+    color: isDarkMode ? '#fff' : '#000',
+    
+  }),
+});

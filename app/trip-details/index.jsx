@@ -6,6 +6,7 @@ import moment from 'moment';
 import FlightInfo from '../../components/TripDetails/FlightInfo';
 import HotelList from '../../components/TripDetails/HotelList';
 import PlannedTrip from '../../components/TripDetails/PlannedTrip';
+import { useTheme } from '../../context/ThemeContext';
 
 const { width } = Dimensions.get('window');
 
@@ -13,6 +14,11 @@ export default function TripDetails() {
   const navigation = useNavigation();
   const { trip } = useLocalSearchParams();
   const [tripDetails, setTripDetails] = useState(null);
+  const { isDarkMode } = useTheme();
+  const bgColor = isDarkMode ? '#121212' : Colors.WHITE;
+  const textColor = isDarkMode ? '#fff' : '#000';
+  const subTextColor = isDarkMode ? '#ccc' : Colors.GRAY;
+
 
   useEffect(() => {
     navigation.setOptions({
@@ -72,13 +78,13 @@ export default function TripDetails() {
 
       <View style={{
         padding: 15,
-        backgroundColor: Colors.WHITE,
+        backgroundColor: bgColor,
         height: '100%',
         marginTop: -30,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
       }}>
-        <Text style={{ fontSize: 25, fontFamily: 'outfit-bold' }}>
+        <Text style={{ fontSize: 25, fontFamily: 'outfit-bold', color: textColor }}>
           {locationInfo?.name || 'Unknown Location'}
         </Text>
 
