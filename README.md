@@ -67,11 +67,12 @@ You can run the app using:
 
 ---
 
-## 📸 Screenshots 
+## 📸 Screenshots
 
-| Discover                                         | My Trip                                       | Itinerary                                      |
-| ------------------------------------------------ | --------------------------------------------- | ---------------------------------------------- |
-| ![Discover Tab](assets/screenshots/discover.png) | ![My Trip Tab](assets/screenshots/mytrip.png) | ![Itinerary](assets/screenshots/itinerary.png) |
+| Discover | My Trip | Itinerary |
+|----------|---------|-----------|
+| ![Discover](assets/images/screenshots/discover.png) | ![My Trip](assets/images/screenshots/mytrip.png) | ![Itinerary](assets/images/screenshots/itinerary.png) |
+
 
 ---
 
