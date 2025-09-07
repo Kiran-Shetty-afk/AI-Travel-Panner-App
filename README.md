@@ -1,50 +1,91 @@
-# Welcome to your Expo app 👋
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+# 🧳 AI Travel Planner
 
-## Get started
+An AI-powered mobile app built with **React Native & Expo** that helps users plan personalized trips.
+It uses **Google Places API** for destinations, **Gemini AI API** for trip generation, and provides complete itineraries with images, budgets, and activities.
 
-1. Install dependencies
+---
+
+## 🚀 Features
+
+* 🌍 Discover domestic & international destinations
+* 🤖 AI-generated itineraries based on budget, dates, and travel companions
+* 📸 Auto-generated images for attractions
+* 📅 My Trip tab to save and view itineraries
+* 💸 Budget options: Cheap, Medium, Luxury
+* 🔍 Search & filter for destinations
+
+---
+
+## 🛠️ Tech Stack
+
+* [Expo](https://expo.dev/) (React Native framework)
+* [Gemini AI API](https://ai.google.dev/) (for trip planning)
+* [Google Maps & Places API](https://developers.google.com/maps) (location search)
+* [React Navigation](https://reactnavigation.org/) (navigation & routing)
+
+---
+
+## 📦 Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/Kiran-Shetty-afk/ai-travel-planner-app.git
+   cd ai-travel-planner-app
+   ```
+
+2. Install dependencies:
 
    ```bash
    npm install
    ```
 
-2. Start the app
+3. Add your API keys in a `.env` file:
 
-   ```bash
-    npx expo start
+   ```env
+   GOOGLE_MAPS_API_KEY=your_google_api_key
+   GEMINI_API_KEY=your_gemini_api_key
    ```
 
-In the output, you'll find options to open the app in a
+4. Start the app:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+   ```bash
+   npx expo start
+   ```
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
+## 📱 Running the App
 
-When you're ready, run:
+You can run the app using:
 
-```bash
-npm run reset-project
-```
+* **Expo Go** (scan QR code in terminal)
+* **Android Emulator**
+* **iOS Simulator** (Mac only)
+* **Development build** for full native support
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## 📸 Screenshots 
 
-To learn more about developing your project with Expo, look at the following resources:
+| Discover                                         | My Trip                                       | Itinerary                                      |
+| ------------------------------------------------ | --------------------------------------------- | ---------------------------------------------- |
+| ![Discover Tab](assets/screenshots/discover.png) | ![My Trip Tab](assets/screenshots/mytrip.png) | ![Itinerary](assets/screenshots/itinerary.png) |
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
+## 📖 Learn More
 
-Join our community of developers creating universal apps.
+* [Expo Documentation](https://docs.expo.dev/)
+* [React Native](https://reactnative.dev/)
+* [Google Maps API](https://developers.google.com/maps/documentation)
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+
+## 👨‍💻 Author
+
+**Kiran Vasant Shetty**
+
+
+
